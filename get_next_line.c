@@ -15,11 +15,23 @@ int		get_next_line(const int fd, char **line)
 {
 	int				rd; 
 	static char		s[BUFF_SIZE + 1]; 
+	char 			*tmp;
+	char 			*buff;
 
-	rd = read (fd, s, BUFF_SIZE);
-	*line = ft_memalloc(1);
-	while (ft_check_join(&*line, s) !=1 && rd > 0)
-		rd = read (fd, s, BUFF_SIZE);
+	buff = ft_strnew(BUFF_SIZE);
+	rd = read (fd, buff, BUFF_SIZE);
+	if (*s)
+		*line = ft_strdup(s);
+	else 
+		*line = ft_memalloc(1);
+	while (ft_check_join(&*line, buff) && rd > 1)
+		rd = read (fd, buff, BUFF_SIZE);
+	if ((tmp = ft_strchr(*line, '\n')))
+	{
+		tmp = tmp + 1;
+		ft_strcpy(s, tmp);
+	}
+
 	return (rd);
 }
 
@@ -28,25 +40,21 @@ int		get_next_line(const int fd, char **line)
 //	si elle trouve un \n on cree la chaine a bonne dimension et on renvoie 1
 //	si on ne trouve pas de \n on copie s a la suite de la chaine et on renvoie 0 
 
-int		ft_check_join(char **line, char *s)
+int		ft_check_join(char **line, char *buff)
 {
 	int		n;
 	char	*tmp;
 
-	tmp = ft_strnew(ft_strlen(*line) + BUFF_SIZE);
-	tmp = ft_strjoin(*line, s);
+	tmp = ft_strjoin(*line, buff);
 	free(*line);
 	*line = ft_strdup(tmp);
 	free(tmp);
 	if (!(ft_strchr(*line, '\n')))
-		n = 0;
+		n = 1;
 	else
 	{
-			
-		n = 1;
-	}	
+		
+		n = 0;
+	}
 	return (n);
 }
-
-//Fonction read
-

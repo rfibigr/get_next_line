@@ -10,10 +10,10 @@ int main (int ac, char **av)
 	{
 	fd = open(av[1], O_RDONLY);
 	
-	while (get_next_line(fd, &line) > 0)
+	while ((get_next_line(fd, &line) > 0))
 	{
 			ft_putstr(line);
-			ft_putstr("NEXT");
+			ft_putstr("||");
 	}
 	}
 	return (0);

@@ -6,14 +6,14 @@
 /*   By: rfibigr <rfibigr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 17:12:43 by rfibigr           #+#    #+#             */
-/*   Updated: 2018/01/13 21:32:16 by rfibigr          ###   ########.fr       */
+/*   Updated: 2018/01/14 11:42:07 by rfibigr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 4
+# define BUFF_SIZE 5
 # include "./libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
