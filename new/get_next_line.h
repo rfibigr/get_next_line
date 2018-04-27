@@ -21,7 +21,7 @@
 # include <fcntl.h>
 
 int	get_next_line(const int fd, char **line);
-char	*ft_strcut(char **line);
+char	*ft_strcut(char **line, int linelen);
 int 	ft_read_to_space(int fd, char **buff);
 char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd);
 

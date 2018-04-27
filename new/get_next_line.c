@@ -33,12 +33,10 @@ int		get_next_line(const int fd, char **line)
 	if (!(*line = ft_memcat(str, strlen, buff, bufflen)))
 		return (0);
 	free (buff);
-	if (!(str_end = ft_strcut(&*line)))
+	if (!(str_end = ft_strcut(&*line, bufflen + strlen)))
 		return (0);
-	
 	ft_strcpy(str, str_end);
 	free (str_end);
-
 	return (1);
 }
 
@@ -69,13 +67,26 @@ int ft_read_to_space(int fd, char**buff)
 	return (BUFF_SIZE * i + rd);
 }
 
-char	*ft_strcut(char **line)
+char	*ft_strcut(char **line, int linelen)
 {
 	char *str;
+	char *tmp;
+	int cspace;
+	int cend;	
 
-	if (!(str = ft_strdup((ft_strchr(*line, '\n') + 1))))
-		return (0);
-	ft_strclr(ft_strchr(*line, '\n'));
+	cspace = 0;
+	while ((*line)[cspace] != '\n' && cspace < (linelen))
+		cspace++;
+	cend = linelen - cspace;
+	str = ft_strnew(cend);
+	tmp = ft_strnew(cspace);
+	ft_memcpy(str, *line + cspace + 1, cend);
+	ft_memccpy(tmp, *line, '\n', linelen);
+	free (*line);
+	*line = ft_strnew(cspace);
+	ft_memcpy(*line, tmp, cspace);
+	free (tmp);
+	
 	return (str);
 }
 
