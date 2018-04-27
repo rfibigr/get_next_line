@@ -16,12 +16,11 @@
 
 int		get_next_line(const int fd, char **line)
 {
-
-	static char str[OPEN_MAX][BUFF_SIZE + 1];
-	char *buff;
-	char *str_end[OPEN_MAX];
-	int	bufflen;
-	int	strlen;
+	static char	str[OPEN_MAX][BUFF_SIZE + 1];
+	char		*buff;
+	char		*str_end[OPEN_MAX];
+	int		bufflen;
+	int		strlen;
 
 	bufflen = 0;
 	buff = NULL;
@@ -44,11 +43,11 @@ int		get_next_line(const int fd, char **line)
 
 int ft_read_to_space(int fd, char**buff)
 {
-	int rd;
-	char sread[BUFF_SIZE];
-	char *tmp;
-	int	i;
-	
+	int		rd;
+	char		sread[BUFF_SIZE];
+	char		*tmp;
+	int		i;
+
 	i = 0;
 	while ((rd = read(fd, sread, BUFF_SIZE)) > 0)
 	{
@@ -59,7 +58,7 @@ int ft_read_to_space(int fd, char**buff)
 		free (*buff);
 		*buff = ft_strnew(BUFF_SIZE * i + rd);
 		ft_memcpy(*buff, tmp, BUFF_SIZE * i + rd + 1);
-		free(tmp);
+		free (tmp);
 		if ((ft_memchr(*buff, '\n', BUFF_SIZE * i + rd)))
 			return (BUFF_SIZE * i + rd);
 		i++;
@@ -69,10 +68,10 @@ int ft_read_to_space(int fd, char**buff)
 
 char	*ft_strcut(char **line, int linelen)
 {
-	char *str;
-	char *tmp;
-	int cspace;
-	int cend;	
+	char		*str;
+	char		*tmp;
+	int		cspace;
+	int		cend;	
 
 	cspace = 0;
 	while ((*line)[cspace] != '\n' && cspace < (linelen))
@@ -91,9 +90,9 @@ char	*ft_strcut(char **line, int linelen)
 
 char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd)
 {
-	size_t i;
-	size_t j;
-	char *tmp;
+	size_t		i;
+	size_t		j;
+	char		*tmp;
 
 	if (bufflen + rd == 0)
 		return NULL;
