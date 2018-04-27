@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <limits.h>
 
 int	get_next_line(const int fd, char **line);
 char	*ft_strcut(char **line, int linelen);

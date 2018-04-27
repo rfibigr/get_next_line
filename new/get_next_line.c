@@ -17,9 +17,9 @@
 int		get_next_line(const int fd, char **line)
 {
 
-	static char str[1024][BUFF_SIZE + 1];
+	static char str[OPEN_MAX][BUFF_SIZE + 1];
 	char *buff;
-	char *str_end[1024];
+	char *str_end[OPEN_MAX];
 	int	bufflen;
 	int	strlen;
 
@@ -45,12 +45,11 @@ int		get_next_line(const int fd, char **line)
 int ft_read_to_space(int fd, char**buff)
 {
 	int rd;
-	char *sread;
+	char sread[BUFF_SIZE];
 	char *tmp;
 	int	i;
 	
 	i = 0;
-	sread = ft_strnew(BUFF_SIZE);
 	while ((rd = read(fd, sread, BUFF_SIZE)) > 0)
 	{
 		if (rd == -1)
@@ -65,7 +64,6 @@ int ft_read_to_space(int fd, char**buff)
 			return (BUFF_SIZE * i + rd);
 		i++;
 	}
-	free (sread);
 	return (BUFF_SIZE * i + rd);
 }
 
@@ -88,7 +86,6 @@ char	*ft_strcut(char **line, int linelen)
 	*line = ft_strnew(cspace);
 	ft_memcpy(*line, tmp, cspace);
 	free (tmp);
-	
 	return (str);
 }
 
@@ -117,5 +114,3 @@ char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd)
 	tmp[i] = '\0';
 	return (tmp);
 }
-
-
