@@ -12,53 +12,104 @@
 
 #include "get_next_line.h"
 
+
+
 int		get_next_line(const int fd, char **line)
 {
-	int				rd; 
-	static char		s[BUFF_SIZE + 1]; 
-	char 			*tmp;
-	char 			*buff;
+	static char	str[OPEN_MAX][BUFF_SIZE + 1];
+	char		*buff;
+	char		*str_end[OPEN_MAX];
+	int		bufflen;
+	int		strlen;
 
-	if (fd == -1)
+	bufflen = 0;
+	buff = NULL;
+	if (fd < 0 || line == NULL)
 		return (-1);
-	*line = ft_memalloc(1);
-	buff = ft_strnew(BUFF_SIZE);
-	if (ft_strchr(s, '\n'))
-	{
-		ft_strcpy(buff, s);
-		ft_check_join(&*line, buff);
-		rd = 1;
-	}
-	else 
-	{
-	*line = ft_strdup(s); 
-	rd = read (fd, buff, BUFF_SIZE);
-	while (ft_check_join(&*line, buff) && rd >= 1)
-		rd = read (fd, buff, BUFF_SIZE);
-	}
-	if ((tmp = ft_strchr(buff, '\n')))
-		ft_strcpy(s, tmp + 1);
-	free(buff);
-	return (rd);
+	if (!(ft_memchr(str[fd], '\n', ft_strlen(str[fd]))))
+		bufflen = ft_read_to_space(fd, &buff);
+	if (bufflen == -1)
+		return (-1);
+	strlen = ft_strlen(str[fd]);
+	if (!(*line = ft_memcat(str[fd], strlen, buff, bufflen)))
+		return (0);
+	free (buff);
+	if (!(str_end[fd] = ft_strcut(&*line, bufflen + strlen)))
+		return (0);
+	ft_strcpy(str[fd], str_end[fd]);
+	free (str_end[fd]);
+	return (1);
 }
 
-/*
-** fonction creation de chaine 
-**	la fonction controle la presence d'un \n dans la chaine 
-**	si elle trouve un \n on cree la chaine a bonne dimension et on renvoie 0
-**	si on ne trouve pas de \n on copie s a la suite de la chaine et on renvoie 1
-*/
-
-int		ft_check_join(char **line, char *buff)
+int ft_read_to_space(int fd, char**buff)
 {
-	char	*tmp;
+	int		rd;
+	char		sread[BUFF_SIZE];
+	char		*tmp;
+	int		i;
 
-	tmp = ft_strjoin(*line, buff);
-	free(*line);
-	*line = ft_strdup(tmp);
-	free(tmp);
-	if (!(ft_strchr(*line, '\n')))
-		return (1);
-	ft_strclr(ft_strchr(*line, '\n') + 1);
-	return (0);
+	i = 0;
+	while ((rd = read(fd, sread, BUFF_SIZE)) > 0)
+	{
+		if (rd == -1)
+			return (-1);
+		tmp = ft_memcat(*buff, BUFF_SIZE * i, sread, rd);
+		ft_bzero(sread, BUFF_SIZE);
+		free (*buff);
+		*buff = ft_strnew(BUFF_SIZE * i + rd);
+		ft_memcpy(*buff, tmp, BUFF_SIZE * i + rd + 1);
+		free (tmp);
+		if ((ft_memchr(*buff, '\n', BUFF_SIZE * i + rd)))
+			return (BUFF_SIZE * i + rd);
+		i++;
+	}
+	return (BUFF_SIZE * i + rd);
+}
+
+char	*ft_strcut(char **line, int linelen)
+{
+	char		*str;
+	char		*tmp;
+	int		cspace;
+	int		cend;	
+
+	cspace = 0;
+	while ((*line)[cspace] != '\n' && cspace < (linelen))
+		cspace++;
+	cend = linelen - cspace;
+	str = ft_strnew(cend);
+	tmp = ft_strnew(cspace);
+	ft_memcpy(str, *line + cspace + 1, cend);
+	ft_memccpy(tmp, *line, '\n', linelen);
+	free (*line);
+	*line = ft_strnew(cspace);
+	ft_memcpy(*line, tmp, cspace);
+	free (tmp);
+	return (str);
+}
+
+char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd)
+{
+	size_t		i;
+	size_t		j;
+	char		*tmp;
+
+	if (bufflen + rd == 0)
+		return NULL;
+	tmp = ft_strnew(bufflen + rd);
+	i = 0;
+	while (i < bufflen)
+	{
+		tmp[i] = buff[i];
+		i++;
+	}
+	j=0;
+	while (i < (bufflen + rd))
+	{
+		tmp[i] = sread[j];
+		j++;
+		i++;
+	}
+	tmp[i] = '\0';
+	return (tmp);
 }

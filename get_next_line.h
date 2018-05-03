@@ -13,14 +13,17 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-# define BUFF_SIZE 2
+# define BUFF_SIZE 1111
 # include "./libft/libft.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <limits.h>
 
-int		get_next_line(const int fd, char **line);
-int		ft_check_join(char **line, char *buff);
+int	get_next_line(const int fd, char **line);
+char	*ft_strcut(char **line, int linelen);
+int 	ft_read_to_space(int fd, char **buff);
+char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd);
 
 #endif
