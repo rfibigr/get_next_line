@@ -6,21 +6,19 @@
 /*   By: rfibigr <rfibigr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/14 19:03:50 by rfibigr           #+#    #+#             */
-/*   Updated: 2018/01/14 19:17:51 by rfibigr          ###   ########.fr       */
+/*   Updated: 2018/05/11 10:18:16 by rfibigr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-
-
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	static char	str[OPEN_MAX][BUFF_SIZE + 1];
 	char		*buff;
 	char		*str_end[OPEN_MAX];
-	int		bufflen;
-	int		strlen;
+	int			bufflen;
+	int			strlen;
 
 	bufflen = 0;
 	buff = NULL;
@@ -33,20 +31,20 @@ int		get_next_line(const int fd, char **line)
 	strlen = ft_strlen(str[fd]);
 	if (!(*line = ft_memcat(str[fd], strlen, buff, bufflen)))
 		return (0);
-	free (buff);
+	free(buff);
 	if (!(str_end[fd] = ft_strcut(&*line, bufflen + strlen)))
 		return (0);
 	ft_strcpy(str[fd], str_end[fd]);
-	free (str_end[fd]);
+	free(str_end[fd]);
 	return (1);
 }
 
-int ft_read_to_space(int fd, char**buff)
+int				ft_read_to_space(int fd, char **buff)
 {
-	int		rd;
+	int			rd;
 	char		sread[BUFF_SIZE];
 	char		*tmp;
-	int		i;
+	int			i;
 
 	i = 0;
 	while ((rd = read(fd, sread, BUFF_SIZE)) > 0)
@@ -55,10 +53,10 @@ int ft_read_to_space(int fd, char**buff)
 			return (-1);
 		tmp = ft_memcat(*buff, BUFF_SIZE * i, sread, rd);
 		ft_bzero(sread, BUFF_SIZE);
-		free (*buff);
+		free(*buff);
 		*buff = ft_strnew(BUFF_SIZE * i + rd);
 		ft_memcpy(*buff, tmp, BUFF_SIZE * i + rd + 1);
-		free (tmp);
+		free(tmp);
 		if ((ft_memchr(*buff, '\n', BUFF_SIZE * i + rd)))
 			return (BUFF_SIZE * i + rd);
 		i++;
@@ -66,12 +64,12 @@ int ft_read_to_space(int fd, char**buff)
 	return (BUFF_SIZE * i + rd);
 }
 
-char	*ft_strcut(char **line, int linelen)
+char			*ft_strcut(char **line, int linelen)
 {
 	char		*str;
 	char		*tmp;
-	int		cspace;
-	int		cend;	
+	int			cspace;
+	int			cend;
 
 	cspace = 0;
 	while ((*line)[cspace] != '\n' && cspace < (linelen))
@@ -81,21 +79,21 @@ char	*ft_strcut(char **line, int linelen)
 	tmp = ft_strnew(cspace);
 	ft_memcpy(str, *line + cspace + 1, cend);
 	ft_memccpy(tmp, *line, '\n', linelen);
-	free (*line);
+	free(*line);
 	*line = ft_strnew(cspace);
 	ft_memcpy(*line, tmp, cspace);
-	free (tmp);
+	free(tmp);
 	return (str);
 }
 
-char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd)
+char			*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd)
 {
 	size_t		i;
 	size_t		j;
 	char		*tmp;
 
 	if (bufflen + rd == 0)
-		return NULL;
+		return (NULL);
 	tmp = ft_strnew(bufflen + rd);
 	i = 0;
 	while (i < bufflen)
@@ -103,7 +101,7 @@ char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd)
 		tmp[i] = buff[i];
 		i++;
 	}
-	j=0;
+	j = 0;
 	while (i < (bufflen + rd))
 	{
 		tmp[i] = sread[j];

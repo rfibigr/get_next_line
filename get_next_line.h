@@ -6,7 +6,7 @@
 /*   By: rfibigr <rfibigr@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/01/07 17:12:43 by rfibigr           #+#    #+#             */
-/*   Updated: 2018/01/14 19:25:14 by rfibigr          ###   ########.fr       */
+/*   Updated: 2018/05/11 10:14:08 by rfibigr          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 # include <fcntl.h>
 # include <limits.h>
 
-int	get_next_line(const int fd, char **line);
+int		get_next_line(const int fd, char **line);
 char	*ft_strcut(char **line, int linelen);
-int 	ft_read_to_space(int fd, char **buff);
+int		ft_read_to_space(int fd, char **buff);
 char	*ft_memcat(char *buff, size_t bufflen, char *sread, size_t rd);
 
 #endif
