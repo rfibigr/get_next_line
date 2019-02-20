@@ -13,6 +13,10 @@
 
 Get_next_line is part of the library [libft](https://github.com/rfibigr/libft)
 
+## Project instruction
+
+[get_next_line.pdf](https://github.com/rfibigr/get_next_line/tree/master/PDF)
+
 ## Author
 
 Romain Fibigr : rfibigr@student.42.fr
