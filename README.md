@@ -2,7 +2,7 @@
 
 | get_next_line 	|											|
 | ------------- | ----------------------------------------- |
-| Prototype		| void * ft_memalloc(size_t size);		|
+| Prototype		| int get_next_line(const int fd, char **line);	|
 | Description	| Get_next_line is a function that return a line (succession of character that end with '\n') read from a file descriptor. The strind is returned without the '\n'. Calling the function get_next_line in a loop will then allow you to read the text available on a file descriptor one line at the end of the text, no matter the size of either the text or ones of it's lines. Multi file descriptor are manage. |
 | Param #1		| The file descriptor |
 | Param #2		| The address of the image that will be used yo save the line read from the file decriptor |
